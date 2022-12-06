@@ -1,0 +1,2 @@
+openssl aes-256-cbc -d -pbkdf2 -in sample_openssl_aes-256-cbc.enc -k {pw_list.txt}
+openssl enc -aes-256-cbc -pbkdf2 -in test.txt -out sample_openssl_aes-256-cbc.enc -k test
