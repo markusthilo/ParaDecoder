@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 __author__ = 'Markus Thilo'
-__version__ = '0.1_2022-12-06'
+__version__ = '0.1_2022-12-08'
 __license__ = 'GPL-3'
 __email__ = 'markus.thilo@gmail.com'
 __status__ = 'Testing'
@@ -11,7 +11,6 @@ __description__ = 'Versatile decoder with openssl in mind'
 import logging
 from argparse import ArgumentParser
 from pathlib import Path
-from threading import Thread
 from subprocess import Popen, PIPE
 from time import sleep
 from sys import exit as sysexit
@@ -102,36 +101,55 @@ class Threads:
 				self.procs.remove(proc)
 				return returncode
 
+class Brake:
+	'Criteria to end app'
+
+	def __init__(self, brake):
+		'Chose brake'
+		self.check = {
+			'0': self.__exit0__
+		}[brake]
+
+	def __exit0__(self, returncode):
+		'Process returned 0?'
+		return returncode == 0
+
 class Worker:
 	'Main class'
 
-	def __init__(self, cmd, maxthreads):
+	def __init__(self, cmd, brake, maxthreads):
 		logging.debug('Starting Worker')
 		cmd = GenCmd(cmd).get()
+		brake = Brake(brake)
+		print(brake)
 		threads = Threads(cmd, maxthreads)
 		while len(threads.procs) > 0:
 			returncode = threads.check()
-			if returncode == 0:
-				logging.info('Thread returned 0')
-				return
-				threads.add()
+			if returncode == None:
+				sleep(.1)
 				continue
-			if len(threads.procs) > 0:
-				sleep(0.5)
+			if brake.check(returncode):
+				logging.info('Brake')
+				return
+			threads.add()
+		logging.info('Finished: tried all combinations.')
 
 if __name__ == '__main__':	# start here if called as application
 	argparser = ArgumentParser(description=__description__)
-	argparser.add_argument('-c', '--cmd', type=str,  required=True,
-		help='Command to execute', metavar='STRING'
+	argparser.add_argument('-b', '--brake', type=str,  default='0',
+		help='Brake on: 0 = exit code is 0 (default)', metavar='STRING'
 	)
 	argparser.add_argument('-l', '--logfile', type=Path,
-		help=f'Set logfile', metavar='FILE'
+		help='Set logfile', metavar='FILE'
 	)
-	argparser.add_argument('-t', '--threads', type=int,  required=True,
-		help='Number of threads', metavar='INTEGER'
+	argparser.add_argument('-t', '--threads', type=int,  default=1,
+		help='Number of threads (default: 1)', metavar='INTEGER'
 	)
 	argparser.add_argument('-v', '--verbose', action='store_true',
-		help=f'Set loglevel debug'
+		help='Set loglevel debug'
+	)
+	argparser.add_argument('cmd', type=str,  nargs=1,
+		help='Command to execute', metavar='STRING'
 	)
 	args = argparser.parse_args()
 	if args.verbose:
@@ -139,5 +157,5 @@ if __name__ == '__main__':	# start here if called as application
 	else:
 		loglevel = logging.ERROR
 	Logger(loglevel, args.logfile)
-	Worker(args.cmd, args.threads)
+	Worker(args.cmd[0], args.brake, args.threads)
 	sysexit(0)
