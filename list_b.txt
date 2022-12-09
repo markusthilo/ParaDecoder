@@ -1,4 +1,4 @@
-list_b_1
-list_b_2
-list_b_3
-list_b_4
+b_1
+b_2
+b_3
+b_4

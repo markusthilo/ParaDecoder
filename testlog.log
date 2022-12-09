@@ -1,0 +1,12 @@
+2022-12-09 09:34:19 INFO: Start logging to testlog.log
+2022-12-09 09:34:19 DEBUG: Starting Worker
+2022-12-09 09:34:19 DEBUG: Threads: trying to execute as thread 0: ./dummy.sh aaa
+2022-12-09 09:34:19 DEBUG: Threads: trying to execute as thread 0: ./dummy.sh bbb
+2022-12-09 09:34:19 DEBUG: Threads: trying to execute as thread 0: ./dummy.sh ccc
+2022-12-09 09:34:19 DEBUG: Threads: trying to execute as thread 0: ./dummy.sh test
+2022-12-09 09:34:19 INFO: Worker: Brake, return code: 0
+STDOUT:
+Matching password: test
+
+STDERR:
+
