@@ -33,7 +33,7 @@ $ python paradecoder.py -t 4 -v 'openssl {ciphers.txt} -d -pbkdf2 -in sample.enc
 with files:
 ### ciphers.txt
 ```
-es-128-cbc
+aes-128-cbc
 aes-128-ecb
 aes-192-cbc
 aes-192-ecb
@@ -47,3 +47,5 @@ verysafe
 test
 justwrong
 ```
+## Project Page
+https://github.com/markusthilo/ParaDecoder
