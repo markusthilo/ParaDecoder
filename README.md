@@ -9,7 +9,7 @@
 - subprocess
 - time
 - sys
-## Dscription
+## Description
 ParaDecoder creates command lines by combining lists and executing the commands in parallel threads. The initial task was to test openssl decryption. Other taks/applications are possible. The Files have to contain one argument per line, e.g. ciphers or passwords. 
 ## Usage
 $ python paradecoder.py [-h] [-b BRAKE] [-l LOGFILE] [-t THREADS] [-v] COMMAND
