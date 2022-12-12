@@ -47,5 +47,10 @@ verysafe
 test
 justwrong
 ```
+### More Examples
+```
+$ python paradecoder.py -v -t 8 './matrixtest.sh {list_a.txt} {list_b.txt} {list_c.txt}'
+$ python paradecoder.py -v './dummy.sh {nopw_list.txt}'
+```
 ## Project Page
 https://github.com/markusthilo/ParaDecoder
